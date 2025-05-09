@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Drawing Canvas</title>
+    <style>
+        canvas {
+        border: 1px solid black;
+        touch-action: none;
+        }
+    </style>
+    </head>
+    <body>
+    <h2>Draw on the Canvas</h2>
+    <canvas id="drawingCanvas" width="500" height="400"></canvas>
+    <script type="module" src="{{ url_for('static', filename='js/draw.js') }}" ></script>
+    </body>
+</html>

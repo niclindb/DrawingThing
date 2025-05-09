@@ -1,0 +1,9 @@
+body {
+    background-color: gray;
+}
+#connection_status {
+    color: green;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+}
