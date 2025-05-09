@@ -2,6 +2,7 @@
 <html>
     <head>
     <title>Drawing Canvas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainstyle.css') }}">
     <style>
         canvas {
         border: 1px solid black;
@@ -12,6 +13,11 @@
     <body>
     <h2>Draw on the Canvas</h2>
     <canvas id="drawingCanvas" width="500" height="400"></canvas>
+    
+    <div id="connection_status"></div>
+    
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script type="module" src="{{ url_for('static', filename='js/socket.js') }}" ></script>
     <script type="module" src="{{ url_for('static', filename='js/draw.js') }}" ></script>
     </body>
 </html>

@@ -1,8 +1,13 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, send, emit
+import mimetypes
+
+# the mime types for js and ts dont get set automatically for some reason :(
+mimetypes.add_type('application/javascript', '.js')
+mimetypes.add_type('application/typescript', '.ts')
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
+app.config['SECRET_KEY'] = 'secret!' #! replace with .env
 socketio = SocketIO(app)
 
 @app.route("/")
@@ -25,8 +30,9 @@ def handle_hello():
     #send("bobcat", broadcast=True)
 
 @socketio.on('draw_line')
-def handle_draw_line(data):
-    emit('draw_line', data, broadcast=True)
+def handle_draw_line(lineInfo):
+    #print("RECIEVED: " + str(data))
+    emit('draw_line', lineInfo, broadcast=True)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
