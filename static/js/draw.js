@@ -1,6 +1,7 @@
 // 5/8/2025
 // Handles the client drawing
 import * as socket from './socket.js';
+var resizeTimeout;
 const canvas = document.getElementById("drawingCanvas");
 const ctx = canvas.getContext("2d");
 initCanvas();
@@ -72,15 +73,42 @@ function setupDrawTool() {
     ctx.lineCap = "round";
     ctx.strokeStyle = "black";
 }
-function initCanvas() {
+function scaleCanvas() {
+    var scaleDelay = 250; // ms before the canvas actually scales after being still
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(forceScaleCanvas, scaleDelay);
+}
+function forceScaleCanvas() {
     if (!ctx)
         throw new Error("Could not get canvas context");
-    ctx.canvas.width = window.innerWidth;
-    ctx.canvas.height = window.innerHeight;
+    const imageDataURL = canvas.toDataURL();
+    ctx.canvas.width = window.innerWidth - 80;
+    ctx.canvas.height = window.innerHeight - 120;
+    const image = new Image();
+    image.src = imageDataURL;
+    image.onload = function () {
+        ctx.drawImage(image, 0, 0);
+    };
+    updateCanvas();
+}
+function updateCanvas() {
+    if (!ctx)
+        throw new Error("Could not get canvas context");
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     setupDrawTool();
 }
+function initCanvas() {
+    if (!ctx)
+        throw new Error("Could not get canvas context");
+    scaleCanvas();
+    updateCanvas();
+}
+function updateWindowScale() {
+    scaleCanvas();
+}
+//* EVENTS ---------------------------------------------
+window.addEventListener('resize', updateWindowScale, true);
 canvas.addEventListener("mousedown", startDrawing);
 canvas.addEventListener("mouseup", endDrawing);
 canvas.addEventListener("mousemove", draw);

@@ -12,10 +12,10 @@
     </head>
     <body>
     <h2>Draw on the Canvas</h2>
-    <input type="color" id="colorPicker" value="#000000">
+    <input type="color" id="colorPicker" value="#000000"></br>
     <canvas id="drawingCanvas" width="500px" height="400px"></canvas>
     
-    <div id="connection_status"></div>
+    <div id="connection_status" class="noselect warning"></div>
     
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script type="module" src="{{ url_for('static', filename='js/socket.js') }}" ></script>

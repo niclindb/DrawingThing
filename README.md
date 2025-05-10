@@ -1,6 +1,6 @@
 # Drawing Server
 
-We dont really know where this project is going but its got a good base. A Python Web Server that uses sockets to allow clients to all draw on the same canvas.
+A solid base for realtime websites. Python Web Server that uses sockets to allow clients to all draw on the same canvas.
 
 ## Setup
 
