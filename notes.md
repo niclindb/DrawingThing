@@ -1,0 +1,1 @@
+ - tsc --watch auto compilers as you make changes, you still have to refresh to get newest version
