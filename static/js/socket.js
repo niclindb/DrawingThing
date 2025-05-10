@@ -3,15 +3,19 @@
 
 const socket = io();
 
-import { drawFromServer } from "./draw.js"
+import { drawFromServer } from './draw.js';
 
 export function sendDrawToServer(lineInfo){
     console.log("sending to server: " + lineInfo)
-    socket.emit('draw_line', lineInfo);
+    socket.emit('draw_line', {
+        points: lineInfo.points,
+        color: lineInfo.color,
+        isNewPath: lineInfo.isNewPath
+    });
 }
-socket.on('draw_line', function (data) {
-    console.log("recieving from server: " + data)
-    drawFromServer(data);
+socket.on('draw_line', (data) => {
+
+    drawFromServer(data.points, data.color, data.isNewPath);
 });
 
 socket.on('message', function (msg) {

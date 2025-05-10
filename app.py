@@ -18,6 +18,9 @@ def index():
 def draw():
     return render_template("draw.html")
 
+
+
+
 @socketio.on('message')
 def handle_message(msg):
     print('Received message: ' + msg)
@@ -31,8 +34,12 @@ def handle_hello():
 
 @socketio.on('draw_line')
 def handle_draw_line(lineInfo):
-    #print("RECIEVED: " + str(data))
-    emit('draw_line', lineInfo, broadcast=True)
+    response_data = {
+        'points': lineInfo['points'],
+        'color': lineInfo['color'],
+        'isNewPath': lineInfo['isNewPath']
+    }    
+    emit('draw_line', response_data, broadcast=True)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
