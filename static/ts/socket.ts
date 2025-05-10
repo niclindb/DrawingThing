@@ -40,12 +40,16 @@ socket.on('message', (msg: string) => {
 socket.on("connect", () => {
     console.log("connected");
     const statusElement = document.getElementById("connection_status");
+    statusElement?.classList.add("good");
+    statusElement?.classList.remove("bad");
     if (statusElement) statusElement.innerHTML = "Connected";
 });
 
 socket.on("disconnect", () => {
     console.log("disconnected");
     const statusElement = document.getElementById("connection_status");
+    statusElement?.classList.add("bad");
+    statusElement?.classList.remove("good");
     if (statusElement) statusElement.innerHTML = "Disconnected";
 });
 

@@ -1,8 +1,16 @@
 body {
     background-color: gray;
 }
-#connection_status {
+.warning {
+    color: yellow;
+}
+.good {
     color: green;
+}
+.bad {
+    color: red;
+}
+#connection_status {
     position: fixed;
     left: 20px;
     bottom: 20px;

@@ -3,7 +3,7 @@
 import * as socket from './socket.js';
 const canvas = document.getElementById("drawingCanvas");
 const ctx = canvas.getContext("2d");
-setupDrawTool();
+initCanvas();
 export function drawFromServer(points, color, isNewPath) {
     if (!ctx)
         throw new Error("Could not get canvas context");
@@ -71,6 +71,15 @@ function setupDrawTool() {
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
     ctx.strokeStyle = "black";
+}
+function initCanvas() {
+    if (!ctx)
+        throw new Error("Could not get canvas context");
+    ctx.canvas.width = window.innerWidth;
+    ctx.canvas.height = window.innerHeight;
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    setupDrawTool();
 }
 canvas.addEventListener("mousedown", startDrawing);
 canvas.addEventListener("mouseup", endDrawing);

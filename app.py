@@ -1,13 +1,17 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, send, emit
+import os
+from dotenv import load_dotenv
 import mimetypes
+
+load_dotenv()
 
 # the mime types for js and ts dont get set automatically for some reason :(
 mimetypes.add_type('application/javascript', '.js')
 mimetypes.add_type('application/typescript', '.ts')
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!' #! replace with .env
+app.config['SECRET_KEY'] = os.getenv('SOCKET_SECRET')
 socketio = SocketIO(app)
 
 @app.route("/")
@@ -38,7 +42,7 @@ def handle_draw_line(lineInfo):
         'points': lineInfo['points'],
         'color': lineInfo['color'],
         'isNewPath': lineInfo['isNewPath']
-    }    
+    }
     emit('draw_line', response_data, broadcast=True)
 
 if __name__ == '__main__':

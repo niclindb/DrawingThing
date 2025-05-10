@@ -3,13 +3,13 @@
 
 import * as socket from './socket.js';
 
-interface Point {
+type Point = {
     x: number;
     y: number;
 }
 
-export interface DrawInfo {
-    points: Point;  
+export type DrawInfo = {
+    points: Point;
     color: string;
     isNewPath: boolean;
 }
@@ -17,8 +17,7 @@ export interface DrawInfo {
 const canvas = document.getElementById("drawingCanvas") as HTMLCanvasElement;
 const ctx = canvas.getContext("2d");
 
-
-setupDrawTool();
+initCanvas();
 
 export function drawFromServer(points: Point, color: string, isNewPath: boolean): void {
     if (!ctx) throw new Error("Could not get canvas context");
@@ -62,7 +61,7 @@ function startDrawing(e: MouseEvent): void {
 function endDrawing(): void {
     drawing = false;
     if (!ctx) throw new Error("Could not get canvas context");
-    ctx.beginPath();  
+    ctx.beginPath();
 }
 
 function draw(e: MouseEvent): void {
@@ -93,6 +92,14 @@ function setupDrawTool(): void {
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
     ctx.strokeStyle = "black";
+}
+function initCanvas() {
+    if (!ctx) throw new Error("Could not get canvas context");
+    ctx.canvas.width  = window.innerWidth;
+    ctx.canvas.height = window.innerHeight;
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    setupDrawTool();
 }
 
 canvas.addEventListener("mousedown", startDrawing);
