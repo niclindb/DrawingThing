@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from flask_socketio import SocketIO, send, emit
+from flask import *
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 import os
 from dotenv import load_dotenv
 import mimetypes
@@ -20,10 +20,34 @@ def index():
 
 @app.route("/draw")
 def draw():
+    if (not "groupCode" in session):
+        return redirect("/join")
     return render_template("draw.html")
 
+@app.route("/join", methods=["GET", "POST"])
+def joinGroup():
+    if request.method == 'POST':
+        newCode = request.form['groupCode']
+        print ("newcode: ", newCode)
+        session["groupCode"] = newCode
+    return render_template("joinGroup.html")
 
 
+@socketio.on('join_group')
+def on_join():
+    if (not "groupCode" in session):
+        print("user not in group")
+        return
+    roomCode = session["groupCode"]
+    print("joining room: ", roomCode)
+    join_room(roomCode)
+
+@socketio.on('leave_group')
+def on_leave():
+    """ I dont think this should really be called, leaving should happen when you try to join a new group"""
+    if (not "groupCode" in session):
+        return
+    leave_room(session["groupCode"])
 
 @socketio.on('message')
 def handle_message(msg):
@@ -38,12 +62,18 @@ def handle_hello():
 
 @socketio.on('draw_line')
 def handle_draw_line(lineInfo):
+    if (not "groupCode" in session):
+        print("user not in a room")
+        return # Dont send to anyone if youre not in a group
+    
+    room = session["groupCode"]
     response_data = {
         'points': lineInfo['points'],
         'color': lineInfo['color'],
         'isNewPath': lineInfo['isNewPath']
     }
-    emit('draw_line', response_data, broadcast=True)
+    emit('draw_line', response_data, room=room)
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

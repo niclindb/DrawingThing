@@ -6,6 +6,7 @@ A solid base for realtime websites. Python Web Server that uses sockets to allow
 
  - Clone Repository
  - Install python
+ - Install NPM (if you plan on compiling the TypeScript)
  - `$ pip install -r requirements.txt` to install dependencies
 
 ## Run

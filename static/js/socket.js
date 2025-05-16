@@ -25,6 +25,7 @@ socket.on("connect", () => {
     statusElement?.classList.remove("bad");
     if (statusElement)
         statusElement.innerHTML = "Connected";
+    joinGroup();
 });
 socket.on("disconnect", () => {
     console.log("disconnected");
@@ -45,4 +46,8 @@ export function sendHello() {
 }
 export function test() {
     console.log("TESTING THINGS");
+}
+function joinGroup() {
+    console.log("joining group");
+    socket.emit("join_group");
 }
