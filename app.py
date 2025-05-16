@@ -30,6 +30,7 @@ def joinGroup():
         newCode = request.form['groupCode']
         print ("newcode: ", newCode)
         session["groupCode"] = newCode
+        return redirect("/draw")
     return render_template("joinGroup.html")
 
 
